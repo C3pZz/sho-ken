@@ -1165,11 +1165,12 @@ a { text-decoration: none; color: inherit; }
 }
 
 @media (max-width: 768px) {
-  /* スマホ時はバナー文字を小さく、1行に収める */
+  /* スマホ時はバナー文字を小さく、2文目を消して1行に収める */
   .urgency-banner {
-    font-size: .72rem;
+    font-size: .75rem;
     letter-spacing: .02em;
   }
+  .banner-sub { display: none; }
 
   #hero { grid-template-columns: 1fr; min-height: 100svh; }
   .hero-left { height: 50svh; }
