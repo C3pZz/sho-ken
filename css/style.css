@@ -22,9 +22,14 @@
   --ff-sans:  'Noto Sans JP', sans-serif;
   --ff-title: 'Montserrat', sans-serif;
 
-  --radius:   4px;
-  --shadow:   0 8px 32px rgba(0,0,0,0.1);
-  --trans:    0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius:     4px;
+  --shadow:     0 8px 32px rgba(0,0,0,0.1);
+  --trans:      0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* 固定要素の高さ管理 */
+  --banner-h:   44px;  /* 緊急バナー高さ */
+  --header-h:   70px;  /* ヘッダー高さ */
+  --top-offset: calc(var(--banner-h) + var(--header-h)); /* コンテンツのpadding-top */
 }
 
 html { scroll-behavior: smooth; font-size: 16px; }
@@ -130,10 +135,11 @@ a { text-decoration: none; color: inherit; }
    ========================================== */
 #header {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: var(--banner-h);    /* ← バナー下に配置 */
+  left: 0; right: 0;
   z-index: 1000;
   padding: 0 4%;
-  height: 70px;
+  height: var(--header-h);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -223,7 +229,8 @@ a { text-decoration: none; color: inherit; }
 .mobile-nav {
   display: none;
   position: fixed;
-  top: 70px; left: 0; right: 0;
+  top: var(--top-offset);  /* ← バナー＋ヘッダーの下 */
+  left: 0; right: 0;
   background: rgba(245,243,239,.98);
   backdrop-filter: blur(16px);
   padding: 2rem 6%;
@@ -287,7 +294,7 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 120px 8% 60px;
+  padding: calc(var(--top-offset) + 50px) 8% 60px; /* ← バナー＋ヘッダー分を加算 */
   position: relative;
 }
 
@@ -347,7 +354,7 @@ a { text-decoration: none; color: inherit; }
   padding-top: 2rem;
   border-top: 1px solid var(--clr-border);
 }
-.stat-item { }
+
 .stat-num {
   font-family: var(--ff-title);
   font-size: 2rem;
@@ -393,14 +400,20 @@ a { text-decoration: none; color: inherit; }
    URGENCY BANNER
    ========================================== */
 .urgency-banner {
+  position: fixed;          /* ← 固定表示 */
+  top: 0; left: 0; right: 0;
+  z-index: 1001;            /* ← ヘッダーより上 */
+  height: var(--banner-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--clr-danger);
   color: var(--clr-white);
   text-align: center;
-  padding: .9rem 4%;
-  font-size: .88rem;
+  padding: 0 4%;
+  font-size: .82rem;
   font-weight: 700;
-  letter-spacing: .08em;
-  position: relative;
+  letter-spacing: .06em;
   overflow: hidden;
 }
 .urgency-banner::before {
@@ -1152,9 +1165,16 @@ a { text-decoration: none; color: inherit; }
 }
 
 @media (max-width: 768px) {
+  /* スマホ時はバナー文字を小さく、1行に収める */
+  .urgency-banner {
+    font-size: .72rem;
+    letter-spacing: .02em;
+  }
+
   #hero { grid-template-columns: 1fr; min-height: 100svh; }
   .hero-left { height: 50svh; }
-  .hero-right { padding: 2.5rem 6% 5rem; }
+  /* スマホ: バナー+ヘッダー分 + 余白 */
+  .hero-right { padding: calc(var(--top-offset) + 20px) 6% 4rem; }
   .hero-bg-text { font-size: 5rem; }
   .hero-stats { gap: 1.5rem; }
 
@@ -1189,3 +1209,4 @@ a { text-decoration: none; color: inherit; }
   .hero-cta-group { flex-direction: column; }
   .hero-stats { flex-wrap: wrap; gap: 1.2rem; }
 }
+
