@@ -27,7 +27,7 @@
   --trans:      0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* 固定要素の高さ管理 */
-  --banner-h:   44px;  /* 緊急バナー高さ */
+  --banner-h:   58px;  /* 緊急バナー高さ（2段用） */
   --header-h:   70px;  /* ヘッダー高さ */
   --top-offset: calc(var(--banner-h) + var(--header-h)); /* コンテンツのpadding-top */
 }
@@ -405,16 +405,18 @@ a { text-decoration: none; color: inherit; }
   z-index: 1001;            /* ← ヘッダーより上 */
   height: var(--banner-h);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 2px;
   background: var(--clr-danger);
   color: var(--clr-white);
   text-align: center;
   padding: 0 4%;
-  font-size: .82rem;
   font-weight: 700;
   letter-spacing: .06em;
   overflow: hidden;
+  line-height: 1.3;
 }
 .urgency-banner::before {
   content: '';
@@ -428,7 +430,15 @@ a { text-decoration: none; color: inherit; }
     transparent 10px
   );
 }
-.urgency-banner strong { font-size: 1.05em; }
+.banner-line1 {
+  font-size: .88rem;
+}
+.banner-line1 strong { font-size: 1.05em; }
+.banner-line2 {
+  font-size: .78rem;
+  font-weight: 500;
+  opacity: 0.95;
+}
 
 /* ==========================================
    PAIN POINTS (共感セクション)
@@ -1165,12 +1175,9 @@ a { text-decoration: none; color: inherit; }
 }
 
 @media (max-width: 768px) {
-  /* スマホ時はバナー文字を小さく、2文目を消して1行に収める */
-  .urgency-banner {
-    font-size: .75rem;
-    letter-spacing: .02em;
-  }
-  .banner-sub { display: none; }
+  /* スマホ時はバナー文字を調整し2段で綺麗に収める */
+  .banner-line1 { font-size: .8rem; }
+  .banner-line2 { font-size: .7rem; }
 
   #hero { grid-template-columns: 1fr; min-height: 100svh; }
   .hero-left { height: 50svh; }
