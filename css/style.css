@@ -32,7 +32,11 @@
   --top-offset: calc(var(--banner-h) + var(--header-h)); /* コンテンツのpadding-top */
 }
 
-html { scroll-behavior: smooth; font-size: 16px; }
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%; /* iOSでの強制フォント拡大（横幅オーバー）を防ぐ */
+}
 
 body {
   font-family: var(--ff-sans);
@@ -1175,25 +1179,35 @@ a { text-decoration: none; color: inherit; }
 }
 
 @media (max-width: 768px) {
-  /* スマホ時はバナー文字を調整し2段で綺麗に収める */
+  /* スマホ版ヘッダーは白背景を付けてロゴの可読性を保つ */
+  #header {
+    background: rgba(245,243,239,.95);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 20px rgba(0,0,0,.08);
+  }
+
+  /* スマホ時はバナー文字を調整し、絶対に横スクロールさせない */
   .urgency-banner {
-    padding: 0 2%; /* 左右の余白を少し減らして幅を稼ぐ */
+    padding: 0 2%;
+    max-width: 100vw;
   }
   .banner-line1 { 
-    font-size: clamp(0.75rem, 3.5vw, 0.88rem); 
+    font-size: min(3.5vw, 13px); 
     letter-spacing: 0;
+    max-width: 100%;
   }
   .banner-line2 { 
-    font-size: clamp(9px, 2.7vw, 12px); 
-    letter-spacing: -0.02em;
-    white-space: nowrap; /* 強制的に1行にする */
+    font-size: min(2.7vw, 10px); 
+    letter-spacing: -0.05em;
+    white-space: nowrap; 
+    max-width: 100%;
   }
 
   #hero { grid-template-columns: 1fr; min-height: 100svh; }
   .hero-left { height: 50svh; }
-  /* スマホ: バナー+ヘッダー分 + 余白 */
-  .hero-right { padding: calc(var(--top-offset) + 20px) 6% 4rem; }
-  .hero-bg-text { font-size: 5rem; }
+  /* overflow:hiddenを追加し、巨大背景文字のはみ出し横スクロールを防ぐ */
+  .hero-right { padding: calc(var(--top-offset) + 20px) 6% 4rem; overflow: hidden; }
+  .hero-bg-text { font-size: 16vw; } /* 5remでは横にはみ出すためvwに変更 */
   .hero-stats { gap: 1.5rem; }
 
   .nav-links { display: none; }
