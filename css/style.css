@@ -1176,8 +1176,18 @@ a { text-decoration: none; color: inherit; }
 
 @media (max-width: 768px) {
   /* スマホ時はバナー文字を調整し2段で綺麗に収める */
-  .banner-line1 { font-size: .8rem; }
-  .banner-line2 { font-size: .7rem; }
+  .urgency-banner {
+    padding: 0 2%; /* 左右の余白を少し減らして幅を稼ぐ */
+  }
+  .banner-line1 { 
+    font-size: clamp(0.75rem, 3.5vw, 0.88rem); 
+    letter-spacing: 0;
+  }
+  .banner-line2 { 
+    font-size: clamp(9px, 2.7vw, 12px); 
+    letter-spacing: -0.02em;
+    white-space: nowrap; /* 強制的に1行にする */
+  }
 
   #hero { grid-template-columns: 1fr; min-height: 100svh; }
   .hero-left { height: 50svh; }
